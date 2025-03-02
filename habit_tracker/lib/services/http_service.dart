@@ -66,7 +66,7 @@ class HTTPService {
       if (response.statusCode == 200) {
         List data = response.data;
         List<HabitModel> habits = data.map((e)=> HabitModel.fromJson(e)).toList();
-        print(habits);
+        //print(habits);
         return habits;
       }
     } catch (e) {

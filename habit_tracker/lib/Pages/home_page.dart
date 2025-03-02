@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:habit_tracker/models/habit_model.dart';
 import 'package:habit_tracker/pages/habit_detail_page.dart';
 import 'package:habit_tracker/src/app_drawer.dart';
-import 'package:habit_tracker/src/toggle_button.dart';
+import 'package:habit_tracker/src/archived_habits.dart';
 import 'package:simple_heatmap_calendar/simple_heatmap_calendar.dart';
 import '../services/http_service.dart';
 
@@ -17,7 +17,7 @@ class _HomeState extends State<HomePage> {
 
   GlobalKey<FormState> _HomeKey = GlobalKey();
   final _httpService = HTTPService();
-  List<bool> showArchived = [false];
+  List<HabitModel> archivedHabits = [];
   
   @override
   Widget build(BuildContext context) {
@@ -36,14 +36,14 @@ class _HomeState extends State<HomePage> {
     
     return SingleChildScrollView(
       child: Column(children: [
-        _habitView(context, showArchived),
-        _bottomButtons(context, showArchived)
+        _habitView(context),
+        ArchivedHabits(context: context, habits: archivedHabits)
       ]),
     );
     
   }
 
-  Widget _habitView(BuildContext context, List<bool> showArchived) {
+  Widget _habitView(BuildContext context) {
     //var user = ModalRoute.of(context)!.settings.arguments.toString(); //todo: remove bottom line after debugging.
     String user = "123";
 
@@ -53,6 +53,7 @@ class _HomeState extends State<HomePage> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         }
+
         if (snapshot.hasError) {
           return const Center(child: Text("unable to load data"));
         }
@@ -64,6 +65,7 @@ class _HomeState extends State<HomePage> {
             shrinkWrap: true,
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
+              
               HabitModel habit = snapshot.data![index];
               if (habit.state == 'active') {
                 return _habitFrame(context, habit);
@@ -75,15 +77,9 @@ class _HomeState extends State<HomePage> {
                   ),
                   _habitFrame(context, habit)
                 ],);
-              } else if (showArchived[0] & (habit.state == 'archived')) {
-                return Column(children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 30),
-                    child: Text("Archived habits"),
-                  ),
-                  _habitFrame(context, habit)
-                ],);
+              
               } else {
+                archivedHabits.add(habit);
                 return SizedBox.shrink();
               }
             },
@@ -93,31 +89,7 @@ class _HomeState extends State<HomePage> {
     );
   }
 
-  Widget _bottomButtons(BuildContext context, List<bool> showArchived){
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: SizedBox(
-        height: MediaQuery.sizeOf(context).height * 0.05,
-        child: ListView(
-          scrollDirection: Axis.horizontal, 
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              //child: ElevatedButton(onPressed: (){ print("viewing archived habits");}, child: const Text("View Archived Habits")),
-              child: Row(children:[
-                Text("View archived"), 
-                Switch(
-                  value: showArchived[0], 
-                  onChanged: (value)=> setState((){
-                    showArchived[0] = value;
-                  })
-                )]
-                ))
-                ]
-              ),
-        )
-        );
-  }
+  
 
   Widget _habitFrame(context, habit) {
  

@@ -61,11 +61,9 @@ class HTTPService {
 
   Future<List<HabitModel>?> getHabits(String username) async { //get habits of the specified user.
     try {
-      var response = await _dio.get('/habits/$username');
+      var response = await _dio.get('/habits/$username'); 
       
       if (response.statusCode == 200) {
-        //print(response!.data);
-
         List data = response.data;
         List<HabitModel> habits = data.map((e)=> HabitModel.fromJson(e)).toList();
         print(habits);
@@ -76,16 +74,4 @@ class HTTPService {
       return null;
     }
   }
-
-  
-
-  // Future<Response?> get(String path) async {
-  //   try {
-  //     final response = await _dio.get(path);
-  //     return response;
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
-
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import './Pages/login_page.dart';
-import './Pages/signup_page.dart';
-import './Pages/home_page.dart';
+import 'pages/login_page.dart';
+import 'pages/signup_page.dart';
+import 'pages/home_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,9 +14,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Habit Tracker",
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 17, 138, 219)),
+        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(225, 238, 209, 112)),
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color.fromARGB(255, 88, 130, 177),
+          backgroundColor: Color.fromARGB(255, 55, 199, 42),
           titleTextStyle: TextStyle(
             color: Colors.black, 
             fontSize: 25, 
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
           )
         )
       ),
-      initialRoute: "/login",
+      initialRoute: "/home", //todo: change to login after testing
       routes: {
         "/login": (context) => LoginPage(),
         "/signup": (context) => SignUpPage(),

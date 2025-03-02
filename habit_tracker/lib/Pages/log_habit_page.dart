@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import '../src/app_drawer.dart';
 
-class AddHabitPage extends StatefulWidget{
+class LogHabitPage extends StatefulWidget{
 
   @override
   State<StatefulWidget> createState() {
-    return _AddHabitState();
+    return _LogHabitState();
   }
 
 }
 
-class _AddHabitState extends State<AddHabitPage>{
+class _LogHabitState extends State<LogHabitPage>{
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +18,13 @@ class _AddHabitState extends State<AddHabitPage>{
     var user = ModalRoute.of(context)!.settings.arguments.toString(); 
     
     return Scaffold(
-      appBar: AppBar(title: Text("Add habit")),
+      appBar: AppBar(title: Text("Log habit")),
       body: SafeArea(child: _buildUI(context)),
       drawer: appDrawer(user: user)
     );
   }
 
   Widget _buildUI(BuildContext context){
-    return Text("placeholder add item");
+    return Text("placeholder habit logging");
   }
 }

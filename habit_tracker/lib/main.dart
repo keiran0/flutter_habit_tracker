@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/pages/add_habit_page.dart';
+import 'package:habit_tracker/pages/log_habit_page.dart';
+import 'package:habit_tracker/pages/settings_page.dart';
 import 'pages/login_page.dart';
 import 'pages/signup_page.dart';
 import 'pages/home_page.dart';
@@ -29,6 +32,9 @@ class MyApp extends StatelessWidget {
         "/login": (context) => LoginPage(),
         "/signup": (context) => SignUpPage(),
         "/home": (context) => HomePage(),
+        "/log": (context) => LogHabitPage(),
+        "/settings": (context) => SettingsPage(),
+        '/add': (context) => AddHabitPage()
         
       }
     );

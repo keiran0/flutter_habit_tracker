@@ -25,6 +25,16 @@ class HabitDetailPage extends StatelessWidget {
         Text("${habit.count.toString()} times per ${habit.frequency}") : 
         Text("${habit.count.toString()} times per ${habit.frequency} for ${habit.duration} minutes"),
       Text("Date added: ${habit.dateAdded.toString()}"),
+      Text("Habit ID: " + habit.habitId.toString()), //todo: remove this after done
+      _detailButtons()
+    ]);
+  }
+
+  Widget _detailButtons() {
+    return Row(children:[
+      ElevatedButton(onPressed: (){print('Delete habit');}, child: Text("Delete habit")),
+      ElevatedButton(onPressed: (){print('Suspend habit');}, child: Text("Suspend habit")),
+      ElevatedButton(onPressed: (){print('Archive habit');}, child: Text("Archive habit")),
     ]);
   }
 

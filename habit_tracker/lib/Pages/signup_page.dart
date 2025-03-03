@@ -115,6 +115,7 @@ class _SignUpState extends State<SignUpPage> {
     //bad practice duplicating this from login_page.dart.
     //but i'm kinda short on time now due to academic workload and looming midterms.
     //possibly will do more abstraction here in the future when i have the time.
+    //todo: deduplicate
     return showDialog<void>(
       context: context,
       barrierDismissible: false, 

@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 
 class dropButton extends StatefulWidget {
-  @override
-  _dropButtonState createState() => _dropButtonState(list);
 
   List<String> list;
+
+  @override
+  _dropButtonState createState() => _dropButtonState(list);
 
   dropButton(
     {required this.list}
   );
+
 }
-
-
 
 class _dropButtonState extends State<dropButton> {
 
   List<String> list;
 
   _dropButtonState(this.list);
-
 
   String? dropdownValue; 
 

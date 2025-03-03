@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/models/habit_model.dart';
 import 'package:habit_tracker/src/app_drawer.dart';
-import 'package:habit_tracker/src/archived_habits.dart';
+import 'package:habit_tracker/src/hidden_habits.dart';
 import 'package:habit_tracker/src/habit_frame.dart';
 import '../services/http_service.dart';
 
@@ -17,6 +17,7 @@ class _HomeState extends State<HomePage> {
   GlobalKey<FormState> _HomeKey = GlobalKey();
   final _httpService = HTTPService();
   List<HabitModel> archivedHabits = [];
+  List<HabitModel> suspendedHabits = [];
   
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,8 @@ class _HomeState extends State<HomePage> {
     return SingleChildScrollView(
       child: Column(children: [
         _habitView(context),
-        ArchivedHabits(context: context, habits: archivedHabits)
+        HiddenHabits(context: context, habits: suspendedHabits, buttonText: "View suspended",),
+        HiddenHabits(context: context, habits: archivedHabits, buttonText: "View archived",)
       ]),
     );
     
@@ -69,14 +71,8 @@ class _HomeState extends State<HomePage> {
               if (habit.state == 'active') {
                 return HabitFrame(context: context, habit: habit);
               } else if (habit.state == 'suspended') {
-                return Column(children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 30),
-                    child: Text("Suspended habits"),
-                  ),
-                  HabitFrame(context: context, habit: habit)
-                ],);
-              
+                suspendedHabits.add(habit);
+                return SizedBox.shrink();
               } else {
                 archivedHabits.add(habit);
                 return SizedBox.shrink();

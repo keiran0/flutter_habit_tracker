@@ -2,29 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:habit_tracker/models/habit_model.dart';
 import '../src/habit_frame.dart';
 
-class ArchivedHabits extends StatefulWidget {
+class HiddenHabits extends StatefulWidget {
 
   BuildContext context;
   List<HabitModel> habits;
+  String buttonText;
 
-  ArchivedHabits(
+  HiddenHabits(
     {required this.context,
-    required this.habits}
+    required this.habits,
+    required this.buttonText}
   );
 
   @override
     State<StatefulWidget> createState() {
-      return _ArchivedState(this.context, this.habits);
+      return _HiddenState(this.context, this.habits, this.buttonText);
     }
 
 }
 
-class _ArchivedState extends State<ArchivedHabits> {
+class _HiddenState extends State<HiddenHabits> {
 
   BuildContext context;
   List<HabitModel> habits;
+  String buttonText;
 
-  _ArchivedState(this.context, this.habits);
+  _HiddenState(this.context, this.habits, this.buttonText);
 
   List<bool> showArchived = [false];
 
@@ -36,12 +39,12 @@ class _ArchivedState extends State<ArchivedHabits> {
   Widget _buildUI(BuildContext context, List<HabitModel> habits) {
     return Column(children:[
       //showArchived[0] ? Text("button is switched on") : Text("Button is switched off") , //placeholder for actual builder todo: remove this
-      _bottomButtons(context, showArchived),
-      _archivedBuilder(context, habits)
+      _bottomButtons(context, showArchived, buttonText),
+      _hiddenBuilder(context, habits)
     ]);
   }
 
-  Widget _archivedBuilder(BuildContext context, List<HabitModel> habits) {
+  Widget _hiddenBuilder(BuildContext context, List<HabitModel> habits) {
     return ListView.builder(
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
@@ -56,7 +59,7 @@ class _ArchivedState extends State<ArchivedHabits> {
     );
   }
 
-  Widget _bottomButtons(BuildContext context, List<bool> showArchived){
+  Widget _bottomButtons(BuildContext context, List<bool> showHidden, String buttonText){
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: SizedBox(
@@ -67,11 +70,11 @@ class _ArchivedState extends State<ArchivedHabits> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Row(children:[
-                Text("View archived"), 
+                Text(buttonText), 
                 Switch(
-                  value: showArchived[0], 
+                  value: showHidden[0], 
                   onChanged: (value)=> setState((){
-                    showArchived[0] = value;
+                    showHidden[0] = value;
                   })
                 )
               ])

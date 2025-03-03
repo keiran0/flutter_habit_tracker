@@ -45,13 +45,15 @@ const User = mongoose.model("user", userSchema);
 
 const habitSchema = {
   username: String,
-  dateAdded: Date,
-  frequency: String,
+  dateAdded: Date, 
+  frequency: String, //day by default. implementation for month/year/custom freq another time.
   title: String,
-  type: String,
+  type: String, //count/frequency, implement the segregation another time
   description: String,
   count: Int32,
-  tracking: Array
+  tracking: Array, //empty array by default.
+  habitId: Int32,
+  state: String
 }
 
 const Habit = mongoose.model("habit", habitSchema);
@@ -105,7 +107,7 @@ app.get('/habits/:username', function(req, res) {
   Habit.find({ username: req.params.username })
     .then(function(habits){
       res.status(200);
-      console.log(habits)
+      //console.log(habits)
       res.send(habits);
     })
     .catch(function(err) {
@@ -113,6 +115,28 @@ app.get('/habits/:username', function(req, res) {
       res.status(404);
       res.send("An error has occurred")
     })
+})
+
+app.put('/habitState', function(req, res) {
+  console.log(req.body);
+
+  Habit.findOneAndUpdate({ habitId: req.body.habit.habitId }, { state: req.body.type })
+    .then(function(habit){
+      console.log(habit);
+      res.sendStatus(200);
+    })
+    .catch(function(err){
+      console.log(err);
+      res.sendStatus(404);
+    })
+})
+
+app.delete('/habit', function(req,res) {
+  console.log(req.body);
+})
+
+app.post('/new', function(req, res) {
+  console.log("new:" +  req.body);
 })
 
 app.listen(3000, function () {

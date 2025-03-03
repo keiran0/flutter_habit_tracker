@@ -75,5 +75,27 @@ class HTTPService {
     }
   }
 
+  Future<Response?> changeHabitState(Map data) async { 
+    try {
+      var response = await _dio.put('/habitState', data:jsonEncode(data));
+      return response;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<Response?> deleteHabit(Map data) async { 
+    try {
+      var response = await _dio.delete('/habit', data:jsonEncode(data));
+      return response;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  
+
   
 }

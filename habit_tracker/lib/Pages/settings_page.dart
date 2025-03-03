@@ -7,7 +7,6 @@ class SettingsPage extends StatefulWidget{
   State<StatefulWidget> createState() {
     return _SettingsState();
   }
-
 }
 
 class _SettingsState extends State<SettingsPage>{
@@ -25,6 +24,17 @@ class _SettingsState extends State<SettingsPage>{
   }
 
   Widget _buildUI(BuildContext context){
-    return Text("placeholder settings");
+    return Container(
+      width: MediaQuery.sizeOf(context).width,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text("Under construction! It's dusty here, so please go to another page."),
+          Image.network("https://img.icons8.com/clouds/100/road-closure.png")
+        ],
+      ),
+    )
+    ;
   }
 }

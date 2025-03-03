@@ -48,14 +48,6 @@ class _DrawerState extends State<appDrawer> {
 
       ListTile(
           leading: Image.network(
-              "https://img.icons8.com/clouds/100/product.png"),
-          title: Text("View Archived Habits"),
-          onTap: () {
-            Navigator.pushReplacementNamed(context, '/settings', arguments: user);
-          }),
-
-      ListTile(
-          leading: Image.network(
               "https://img.icons8.com/clouds/100/apple-settings--v2.png"),
           title: Text("Settings"),
           onTap: () {

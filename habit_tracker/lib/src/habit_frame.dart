@@ -56,7 +56,6 @@ class _HabitFrameState extends State<HabitFrame> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(habit.title),
-          Text(habit.tracking.toString()),
           HeatmapCalendar<num>(
             startDate: DateTime(habit.dateAdded.year, habit.dateAdded.month, habit.dateAdded.day), 
             endedDate: DateTime.now().add(Duration(days: 61)),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/src/dropdown.dart';
 import '../src/app_drawer.dart';
 
 class AddHabitPage extends StatefulWidget{
@@ -25,6 +26,17 @@ class _AddHabitState extends State<AddHabitPage>{
   }
 
   Widget _buildUI(BuildContext context){
-    return Text("placeholder add item");
+
+    List<String> typeDropdown = <String>['Count', 'Time'];
+
+    return Form(child: Column(
+      children: [
+        TextFormField(decoration: InputDecoration(hintText: "Title")),
+        TextFormField(decoration: InputDecoration(hintText: "Description")),
+        dropButton(list: typeDropdown)
+        
+      ]));
   }
+
+
 }

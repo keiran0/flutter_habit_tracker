@@ -50,22 +50,11 @@ const habitSchema = {
   title: String,
   type: String,
   description: String,
-  count: Int32
+  count: Int32,
+  tracking: Array
 }
 
 const Habit = mongoose.model("habit", habitSchema);
-
-const trackingSchema = {
-  username: String,
-  dateAdded: Date,
-  frequency: String,
-  title: String,
-  type: String,
-  description: String,
-  count: Int32
-}
-
-const Tracking = mongoose.model("tracking", trackingSchema);
 
 app.post('/login', function (req, res) {
   let log_string = "Attempting login with username " + req.body.username + " and password " + req.body.password
@@ -116,7 +105,7 @@ app.get('/habits/:username', function(req, res) {
   Habit.find({ username: req.params.username })
     .then(function(habits){
       res.status(200);
-      //console.log(habits)
+      console.log(habits)
       res.send(habits);
     })
     .catch(function(err) {

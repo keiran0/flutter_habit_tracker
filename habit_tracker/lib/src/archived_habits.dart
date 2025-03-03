@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/models/habit_model.dart';
-import '../Pages/habit_detail_page.dart';
-import 'package:simple_heatmap_calendar/simple_heatmap_calendar.dart';
+import '../src/habit_frame.dart';
 
 class ArchivedHabits extends StatefulWidget {
 
@@ -48,35 +47,12 @@ class _ArchivedState extends State<ArchivedHabits> {
       shrinkWrap: true,
       itemCount: habits.length,
       itemBuilder: (context, index) {
-        if (habits.length > 0) {
-          return _habitFrame(context, habits[index]);
+        if (habits.length > 0 && showArchived[0]) {
+          return HabitFrame(context: context, habit: habits[index]);
         } else {
           return SizedBox.shrink();
         }
       }   
-    );
-  }
-
-  Widget _habitFrame(context, habit) { //todo: deduplicate code from across here and home_page.
- 
-    return ListTile(
-      onTap: () { 
-        Navigator.push(context,
-          MaterialPageRoute(builder: (context) {
-            return HabitDetailPage(habit: habit);
-          })
-        );
-      },
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(habit.title),
-          HeatmapCalendar<num>(
-            startDate: DateTime(habit.dateAdded.year, habit.dateAdded.month, habit.dateAdded.day), 
-            endedDate: DateTime(2026, 2, 1)
-          ),
-        ],
-      ),
     );
   }
 

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker/models/habit_model.dart';
-import 'package:habit_tracker/pages/habit_detail_page.dart';
 import 'package:habit_tracker/src/app_drawer.dart';
 import 'package:habit_tracker/src/archived_habits.dart';
-import 'package:simple_heatmap_calendar/simple_heatmap_calendar.dart';
+import 'package:habit_tracker/src/habit_frame.dart';
 import '../services/http_service.dart';
 
 class HomePage extends StatefulWidget {
@@ -41,7 +40,7 @@ class _HomeState extends State<HomePage> {
       ]),
     );
     
-  }
+  } 
 
   Widget _habitView(BuildContext context) {
     //var user = ModalRoute.of(context)!.settings.arguments.toString(); //todo: remove bottom line after debugging.
@@ -68,14 +67,14 @@ class _HomeState extends State<HomePage> {
               
               HabitModel habit = snapshot.data![index];
               if (habit.state == 'active') {
-                return _habitFrame(context, habit);
+                return HabitFrame(context: context, habit: habit);
               } else if (habit.state == 'suspended') {
                 return Column(children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 30),
                     child: Text("Suspended habits"),
                   ),
-                  _habitFrame(context, habit)
+                  HabitFrame(context: context, habit: habit)
                 ],);
               
               } else {
@@ -89,28 +88,4 @@ class _HomeState extends State<HomePage> {
     );
   }
 
-  
-
-  Widget _habitFrame(context, habit) {
- 
-    return ListTile(
-      onTap: () { 
-        Navigator.push(context,
-          MaterialPageRoute(builder: (context) {
-            return HabitDetailPage(habit: habit);
-          })
-        );
-      },
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(habit.title),
-          HeatmapCalendar<num>(
-            startDate: DateTime(habit.dateAdded.year, habit.dateAdded.month, habit.dateAdded.day), 
-            endedDate: DateTime(2026, 2, 1)
-          ),
-        ],
-      ),
-    );
-  }
 }

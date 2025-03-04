@@ -20,46 +20,76 @@ class HabitDetailPage extends StatelessWidget {
   }
 
   Widget _buildUI(BuildContext context) {
-    return Column(children:[
-      Text(habit.title),
-      Text(habit.description),
-      Text("Status: ${habit.state}"),
-      habit.duration == 0 ? 
-        Text("${habit.count.toString()} times per ${habit.frequency}") : 
-        Text("${habit.count.toString()} times per ${habit.frequency} for ${habit.duration} minutes"),
-      Text("Date added: ${habit.dateAdded.toString()}"),
-      Text("Habit ID: " + habit.habitId.toString()), //todo: remove this after done
-      _detailButtons(context)
-    ]);
+    return Padding(
+      padding: const EdgeInsets.all(30.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children:[
+        Text("Title: " + habit.title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text("Description: " + habit.description),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text("Status: ${habit.state}"),
+        ),
+        habit.duration == 0 ? 
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("${habit.count.toString()} times per ${habit.frequency}"),
+          ) : 
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("${habit.count.toString()} times per ${habit.frequency} for ${habit.duration} minutes"),
+          ),
+        _detailButtons(context)
+      ]),
+    );
   }
 
   Widget _detailButtons(BuildContext context) {
       String textString = "suspended";
       String buttonString = "Suspend habit";
+      String dialogString = "suspended";
       print(habit.state);
       if (habit.state == "suspended") {
         textString = "active";
         buttonString = "Unsuspend habit";
+        dialogString = "unsuspended";
       }
 
-    return Row(children:[
-      //delete
-      ElevatedButton(onPressed: (){
-        _httpService.deleteHabit({ "habit": habit });
-        _showMyDialog("Habit deleted.", "", context);
-
-      }, child: Text("Delete habit")),
-      //suspend
-      habit.state == 'archived' ? SizedBox.shrink() : ElevatedButton(onPressed: () {
-        _httpService.changeHabitState({ "type": textString, "habit": habit });
-        _showMyDialog("Habit suspended.", "To unsuspend this habit, click on the button again.", context);
-      }, child: Text(buttonString)),
-      //archive
-      habit.state == 'archived' ? SizedBox.shrink() : ElevatedButton(onPressed: () {
-        _httpService.changeHabitState({ "type": "archive", "habit": habit });
-        _showMyDialog("Archive", "This habit has been archived. You can view archived habits from the home screen.", context);
-      }, child: Text("Archive habit")),
-    ]);
+    return Padding(
+      padding: const EdgeInsets.all(30.0),
+      child: Row(
+        children:[
+        //delete
+        Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: ElevatedButton(onPressed: (){
+            _httpService.deleteHabit({ "habit": habit });
+            _showMyDialog("Habit deleted.", "", context);
+                
+          }, child: Text("Delete habit")),
+        ),
+        //suspend
+        habit.state == 'archived' ? SizedBox.shrink() : Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: ElevatedButton(onPressed: () {
+            _httpService.changeHabitState({ "type": textString, "habit": habit });
+            _showMyDialog("Habit $dialogString.", "To undo, click on the button again.", context);
+          }, child: Text(buttonString)),
+        ),
+        //archive
+        habit.state == 'archived' ? SizedBox.shrink() : Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: ElevatedButton(onPressed: () {
+            _httpService.changeHabitState({ "type": "archived", "habit": habit });
+            _showMyDialog("Archive", "This habit has been archived. You can view archived habits from the home screen.", context);
+          }, child: Text("Archive habit")),
+        ),
+      ]),
+    );
   }
 
   Future<void> _showMyDialog(String dialogTitle, String dialogText, BuildContext context) async { 
@@ -85,7 +115,7 @@ class HabitDetailPage extends StatelessWidget {
               child: const Text('Ok'),
               onPressed: () {
                 Navigator.of(context).pop();
-                Navigator.pushNamed(context, "/home");
+                Navigator.pushReplacementNamed(context, "/home", arguments: habit.username);
               },
             ),
           ],

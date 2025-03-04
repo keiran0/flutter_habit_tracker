@@ -22,8 +22,8 @@ class _HomeState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
 
-    //var user = ModalRoute.of(context)!.settings.arguments.toString(); //todo: remove bottom line after debugging.
-    String user = "123";
+    var user = ModalRoute.of(context)!.settings.arguments.toString(); //todo: remove bottom line after debugging.
+    //String user = "123";
     
     return Scaffold(
       appBar: AppBar(title: Text("Habit View")),

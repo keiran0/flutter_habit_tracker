@@ -62,7 +62,6 @@ class _HabitFrameState extends State<HabitFrame> {
             colorMap: {
               1: const Color.fromARGB(255, 81, 255, 12)
             },
-            // selectedMap: map1,
             selectedMap: map1
           ),
         ],

@@ -25,12 +25,15 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildUI(context){
-    return Column(children:[
-      _loginTitle(),
-      _loginForm(),
-      _loginButton(),
-      _navigatorToSignUp()
-    ]);
+    return Padding(
+      padding: const EdgeInsets.all(30.0),
+      child: Column(children:[
+        _loginTitle(),
+        _loginForm(),
+        _loginButton(),
+        _navigatorToSignUp()
+      ]),
+    );
   }
 
   Widget _loginTitle(){
@@ -76,36 +79,43 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _loginButton() {
-    return ElevatedButton(
-      onPressed: () async {
-        if (_LoginFormKey.currentState?.validate() ?? false) {
-          _LoginFormKey.currentState?.save();
-          final response = await _httpService.login({ "username": username, "password": password });
-          if (response!.statusCode == 200) {
-            Navigator.pushReplacementNamed(context, '/home', arguments: username);
-          } else if (response.statusCode == 401) {
-            print("Wrong password");
-            _showMyDialog("Wrong password", "Please check your username and password again.");
-          } else if (response.statusCode == 404) {
-            print("Account does not exist.");
-            _showMyDialog("Account does not exist!", "Please sign up for an account before logging in.");
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: ElevatedButton(
+        onPressed: () async {
+          if (_LoginFormKey.currentState?.validate() ?? false) {
+            _LoginFormKey.currentState?.save();
+            final response = await _httpService.login({ "username": username, "password": password });
+            if (response!.statusCode == 200) {
+              Navigator.pushReplacementNamed(context, '/home', arguments: username);
+            } else if (response.statusCode == 401) {
+              print("Wrong password");
+              _showMyDialog("Wrong password", "Please check your username and password again.");
+            } else if (response.statusCode == 404) {
+              print("Account does not exist.");
+              _showMyDialog("Account does not exist!", "Please sign up for an account before logging in.");
+            }
+            
           }
-          
-        }
-      }, 
-      child: Text("Login")
+        }, 
+        child: Text("Login")
+      ),
     );
   }
 
   Widget _navigatorToSignUp() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text("No account yet?"),
-        ElevatedButton(
-          onPressed: (){
-            Navigator.pushReplacementNamed(context, '/signup');
-          }, 
-          child: Text("Sign up")
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: ElevatedButton(
+            onPressed: (){
+              Navigator.pushReplacementNamed(context, '/signup');
+            }, 
+            child: Text("Sign up")
+          ),
         ),
       ]
     ); 
@@ -127,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Ok'),
+              child: const Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
               },

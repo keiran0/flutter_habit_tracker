@@ -53,33 +53,35 @@ const habitSchema = {
   count: Int32,
   tracking: Array, //empty array by default.
   habitId: Int32,
-  state: String
+  state: String,
+  duration: Int32,
+  currCount: Int32
 }
 
 const Habit = mongoose.model("habit", habitSchema);
 
 app.post('/login', function (req, res) {
-  let log_string = "Attempting login with username " + req.body.username + " and password " + req.body.password
+  //let log_string = "Attempting login with username " + req.body.username + " and password " + req.body.password
 
   User.findOne({ username: req.body.username })
     .then(function (user) {
       if (user.password == req.body.password) {
-        console.log(log_string + ". Password correct. ")
+        //console.log(log_string + ". Password correct. ")
         res.sendStatus(200)
       } else {
-        console.log(log_string + ". Password incorrect.")
+        //console.log(log_string + ". Password incorrect.")
         res.sendStatus(401)
       }
     })
     .catch(function (err) {
-      console.log(log_string + ". User does not have an account")
+      //console.log(log_string + ". User does not have an account")
       res.sendStatus(404)
     })
 })
 
 app.post('/signup', function (req, res) {
-  let log_string = "Attempting signup with username " + req.body.username + " and password " + req.body.password
-  console.log(log_string)
+  //let log_string = "Attempting signup with username " + req.body.username + " and password " + req.body.password
+  //console.log(log_string)
 
   User.findOne({ username: req.body.username })
     .then(function (user) {
@@ -88,7 +90,7 @@ app.post('/signup', function (req, res) {
         User.create([ {username: req.body.username, password: req.body.password} ])
           .then(res.sendStatus(201))
           .catch(res.sendStatus(404)) //some issue with mongodb i guess
-        console.log("An account has been created. \n")
+        //console.log("An account has been created. \n")
         
       } else {
         console.log("Username not available.")
@@ -107,7 +109,6 @@ app.get('/habits/:username', function(req, res) {
   Habit.find({ username: req.params.username })
     .then(function(habits){
       res.status(200);
-      //console.log(habits)
       res.send(habits);
     })
     .catch(function(err) {
@@ -120,9 +121,9 @@ app.get('/habits/:username', function(req, res) {
 app.put('/habitState', function(req, res) {
   console.log(req.body);
 
-  Habit.findOneAndUpdate({ habitId: req.body.habit.habitId }, { state: req.body.type })
+  Habit.findOneAndUpdate({ username: req.body.habit.username, title: req.body.habit.title }, { state: req.body.type })
     .then(function(habit){
-      console.log(habit);
+      //console.log(habit);
       res.sendStatus(200);
     })
     .catch(function(err){
@@ -133,10 +134,75 @@ app.put('/habitState', function(req, res) {
 
 app.delete('/habit', function(req,res) {
   console.log(req.body);
+  Habit.findOneAndDelete({ username: req.body.habit.username, title: req.body.habit.title})
+    .then(function(item) {
+      console.log("item deleted")
+      res.sendStatus(200)
+    })
+    .catch(function(err) {
+      console.log(err)
+      res.sendStatus(400)
+    })
 })
 
 app.post('/new', function(req, res) {
-  console.log("new:" +  req.body);
+  //console.log(req.body);
+  
+  Habit.create({
+    username: req.body.username,
+    dateAdded: req.body.dateAdded, 
+    frequency: "day",
+    title: req.body.title,
+    type: "count", //count/frequency, implement the segregation another time
+    description: req.body.description,
+    count: req.body.count,
+    duration: req.body.minutes,
+    tracking: [], //empty array by default.
+    habitId: 1,
+    state: 'active',
+    currCount: 0
+  })
+    .then(function(habit) {
+      console.log(habit)
+      res.sendStatus(200)
+    })
+    .catch(function(err) {
+      console.log(err)
+      res.sendStatus(404)
+    })
+})
+
+app.put('/habit', function(req, res) { //changing habit count
+  //console.log(req.body);
+
+  Habit.findOneAndUpdate({ title: req.body.habit.title, username: req.body.habit.username }, { currCount: req.body.habit.currCount })
+    .then(function(habit){
+      //console.log(habit);
+      res.sendStatus(200);
+    })
+    .catch(function(err){
+      console.log(err);
+      res.sendStatus(404);
+    })
+})
+
+app.post('/habitComplete', function(req, res) { //marking as completed, add date
+  //console.log(req.body);
+
+  Habit.findOneAndUpdate(
+    { title: req.body.habit.title, 
+      username: req.body.habit.username 
+    }, 
+    { $push: { tracking: req.body.date }, currCount: 0 }
+  )
+    .then(function(item){
+      //console.log(item)
+      res.sendStatus(200)
+    })
+    .catch(function(err) {
+      console.log(err)
+      res.sendStatus(404)
+    })
 })
 
 app.listen(3000, function () {

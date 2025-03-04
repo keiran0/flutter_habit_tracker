@@ -76,6 +76,7 @@ class HTTPService {
   }
 
   Future<Response?> changeHabitState(Map data) async { 
+    print(data);
     try {
       var response = await _dio.put('/habitState', data:jsonEncode(data));
       return response;
@@ -95,7 +96,37 @@ class HTTPService {
     }
   }
 
-  
+  Future<Response?> addHabit(Map data) async { 
+    print(data);
+    try {
+      var response = await _dio.post('/new', data:jsonEncode(data));
+      return response;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<Response?> changeHabitCount(Map data) async { 
+    try {
+      var response = await _dio.put('/habit', data:jsonEncode(data));
+      return response;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<Response?> markAsCompleted(Map data) async { 
+    try {
+      print(data);
+      var response = await _dio.post('/habitComplete', data:jsonEncode(data));
+      return response;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 
   
 }

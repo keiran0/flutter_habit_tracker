@@ -21,6 +21,7 @@ class HabitModel {
   int duration;
   int habitId;
   List<dynamic> tracking;
+  int currCount;
 
   HabitModel({
     required this.username,
@@ -33,7 +34,8 @@ class HabitModel {
     required this.count,
     required this.duration,
     required this.habitId,
-    required this.tracking
+    required this.tracking,
+    required this.currCount
   });
 
   HabitModel copyWith({
@@ -48,6 +50,7 @@ class HabitModel {
     int? duration,
     int? habitId,
     List<DateTime>? tracking,
+    int? currCount
   }) =>
       HabitModel(
         username: username ?? this.username,
@@ -57,10 +60,11 @@ class HabitModel {
         title: title ?? this.title,
         type: type ?? this.type,
         description: description ?? this.description,
-        count: count ?? this.count,
+        count: count ?? this.currCount,
         duration: duration ?? this.duration,
         habitId: habitId ?? this.habitId,
-        tracking: tracking ?? this.tracking
+        tracking: tracking ?? this.tracking,
+        currCount: currCount ?? this.currCount
       );
 
   factory HabitModel.fromJson(Map<String, dynamic> json) => HabitModel(
@@ -74,7 +78,8 @@ class HabitModel {
     count: json["count"],
     duration: json["duration"],
     habitId: json["habitId"],
-    tracking: json["tracking"]
+    tracking: json["tracking"],
+    currCount: json['currCount']
   );
 
   Map<String, dynamic> toJson() => {
@@ -88,6 +93,7 @@ class HabitModel {
     "count": count,
     "duration": duration,
     "habitId": habitId,
-    "tracking": tracking
+    "tracking": tracking,
+    "currCount": currCount
   };
 }

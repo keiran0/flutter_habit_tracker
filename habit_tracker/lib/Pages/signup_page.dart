@@ -26,12 +26,15 @@ class _SignUpState extends State<SignUpPage> {
   }
 
   Widget _buildUI(context){
-    return Column(children:[
-      _signUpTitle(),
-      _signUpForm(),
-      _signUpButton(),
-      _navigatorToLogin()
-    ]);
+    return Padding(
+      padding: const EdgeInsets.all(30.0),
+      child: Column(children:[
+        _signUpTitle(),
+        _signUpForm(),
+        _signUpButton(),
+        _navigatorToLogin()
+      ]),
+    );
   }
 
   Widget _signUpTitle(){
@@ -77,35 +80,42 @@ class _SignUpState extends State<SignUpPage> {
   }
 
   Widget _signUpButton() {
-    return ElevatedButton(
-      onPressed: () async {
-        if (_SignUpFormKey.currentState?.validate() ?? false) {
-          _SignUpFormKey.currentState?.save();
-          final response = await _httpService.signup({ "username": username, "password": password });
-          if (response!.statusCode == 201) {
-            _showMyDialog("Success!", "Your account has been created! You may now login with the same credentials.");
-          } else if (response.statusCode == 200) {
-            _showMyDialog("This username has already been taken.", "Please enter another username.");
-          } else if (response.statusCode == 404) {
-            _showMyDialog("Something went wrong.", "Please try again later, or contact the developer.");
-          } else {
-            _showMyDialog("Something went very wrong.", "You're not supposed to see this screen. Contact the developer.");
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: ElevatedButton(
+        onPressed: () async {
+          if (_SignUpFormKey.currentState?.validate() ?? false) {
+            _SignUpFormKey.currentState?.save();
+            final response = await _httpService.signup({ "username": username, "password": password });
+            if (response!.statusCode == 201) {
+              _showMyDialog("Success!", "Your account has been created! You may now login with the same credentials.");
+            } else if (response.statusCode == 200) {
+              _showMyDialog("This username has already been taken.", "Please enter another username.");
+            } else if (response.statusCode == 404) {
+              _showMyDialog("Something went wrong.", "Please try again later, or contact the developer.");
+            } else {
+              _showMyDialog("Something went very wrong.", "You're not supposed to see this screen. Contact the developer.");
+            }
           }
-        }
-      }, 
-      child: Text("Sign Up")
+        }, 
+        child: Text("Sign Up")
+      ),
     );
   }
 
   Widget _navigatorToLogin() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text("Have an account?"),
-        ElevatedButton(
-          onPressed: (){
-            Navigator.pushReplacementNamed(context, '/login');
-          }, 
-          child: Text("Login")
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: ElevatedButton(
+            onPressed: (){
+              Navigator.pushReplacementNamed(context, '/login');
+            }, 
+            child: Text("Login")
+          ),
         ),
       ]
     ); 

@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Habit Tracker",
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(225, 238, 209, 112)),
+        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(224, 189, 158, 55)),
         appBarTheme: const AppBarTheme(
           backgroundColor: Color.fromARGB(255, 55, 199, 42),
           titleTextStyle: TextStyle(
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           )
         )
       ),
-      initialRoute: "/home", //todo: change to login after testing
+      initialRoute: "/login", 
       routes: {
         "/login": (context) => LoginPage(),
         "/signup": (context) => SignUpPage(),
